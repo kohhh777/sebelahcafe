@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>面包价格计算器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f5f0;
+            color: #5c3d2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: #e6b17e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .bread-image {
+            width: 100%;
+            height: 200px;
+            background-color: #f5e8d9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .bread-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #e6b17e;
+        }
+        
+        .quantity-selector {
+            margin-bottom: 20px;
+        }
+        
+        .quantity-selector label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            background-color: #e6b17e;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #d19c68;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 0 10px;
+            border: 2px solid #e6b17e;
+            border-radius: 5px;
+        }
+        
+        .discount-section {
+            margin-bottom: 25px;
+        }
+        
+        .discount-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .discount-checkbox input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .discount-checkbox span {
+            font-weight: 600;
+        }
+        
+        .total-section {
+            background-color: #f5e8d9;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .total-label {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .total-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #5c3d2e;
+        }
+        
+        .discount-applied {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+        
+        .currency {
+            font-size: 1.5rem;
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .total-price {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>面包价格计算器</h1>
+            <p>新鲜出炉，美味可口</p>
+        </div>
+        
+        <div class="bread-image">
+            <svg width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="100" cy="75" rx="90" ry="50" fill="#e6b17e"/>
+                <ellipse cx="100" cy="65" rx="85" ry="45" fill="#d19c68"/>
+                <ellipse cx="100" cy="60" rx="80" ry="40" fill="#e6b17e"/>
+                <ellipse cx="100" cy="55" rx="75" ry="35" fill="#f5e8d9"/>
+            </svg>
+        </div>
+        
+        <div class="content">
+            <div class="price-info">
+                <span>单价:</span>
+                <span><span class="currency">RM</span> 3.70</span>
+            </div>
+            
+            <div class="quantity-selector">
+                <label for="quantity">选择数量:</label>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" id="decrease">-</button>
+                    <input type="number" id="quantity" class="quantity-input" value="1" min="1" max="100">
+                    <button class="quantity-btn" id="increase">+</button>
+                </div>
+            </div>
+            
+            <div class="discount-section">
+                <label class="discount-checkbox">
+                    <input type="checkbox" id="discount">
+                    <span>应用10%折扣</span>
+                </label>
+            </div>
+            
+            <div class="total-section">
+                <div class="total-label">总计:</div>
+                <div>
+                    <span id="original-price" class="original-price"></span>
+                    <span class="total-price"><span class="currency">RM</span> <span id="total">3.70</span></span>
+                </div>
+                <div id="discount-text" class="discount-applied"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const decreaseBtn = document.getElementById('decrease');
+            const increaseBtn = document.getElementById('increase');
+            const discountCheckbox = document.getElementById('discount');
+            const totalElement = document.getElementById('total');
+            const discountText = document.getElementById('discount-text');
+            const originalPriceElement = document.getElementById('original-price');
+            
+            const breadPrice = 3.70;
+            
+            // 更新总价
+            function updateTotal() {
+                let quantity = parseInt(quantityInput.value);
+                if (isNaN(quantity) || quantity < 1) {
+                    quantity = 1;
+                    quantityInput.value = 1;
+                }
+                
+                let total = breadPrice * quantity;
+                let discountApplied = discountCheckbox.checked;
+                
+                if (discountApplied) {
+                    let discountedTotal = total * 0.9;
+                    totalElement.textContent = discountedTotal.toFixed(2);
+                    originalPriceElement.textContent = 'RM ' + total.toFixed(2);
+                    discountText.textContent = '已应用10%折扣，节省 RM ' + (total - discountedTotal).toFixed(2);
+                } else {
+                    totalElement.textContent = total.toFixed(2);
+                    originalPriceElement.textContent = '';
+                    discountText.textContent = '';
+                }
+            }
+            
+            // 减少数量
+            decreaseBtn.addEventListener('click', function() {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                    updateTotal();
+                }
+            });
+            
+            // 增加数量
+            increaseBtn.addEventListener('click', function() {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity < 100) {
+                    quantityInput.value = quantity + 1;
+                    updateTotal();
+                }
+            });
+            
+            // 输入框变化
+            quantityInput.addEventListener('input', updateTotal);
+            
+            // 折扣选择变化
+            discountCheckbox.addEventListener('change', updateTotal);
+            
+            // 初始化
+            updateTotal();
+        });
+    </script>
+</body>
+</html>
